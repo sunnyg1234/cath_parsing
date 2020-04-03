@@ -4,4 +4,4 @@ This repository is code for taking CDW data and manipulating/processing strings 
 
 # Right Heart Catherization
 
-Will need to extract features. This folder currently has a sample/toy data set to start analysis that has no personal identifiers. 
+Will need to extract features. This folder currently has a sample/toy data set to start analysis that has no personal identifiers. Will start working on this.
