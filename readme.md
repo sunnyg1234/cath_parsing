@@ -30,9 +30,13 @@ __Milestones__
 
 Each RHC data chunk is very disorganized, but follows an overall pattern. We will likely use __regex__ to extract the appropriate. This is a guide in R for using this system / working with strings.
 
-https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions
+_To help learn regular expressions_:
 
-For one of hte records, for example, we can get the RHC data using this expression...
+- [R-based Tutorial on Strings](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions)
+- [Regular Expression Tutorial](https://regexone.com/)
+- [Regex Online Tester](https://regex101.com/)
+
+For one of the records, for example, we can get the RHC data using this expression...
 
 `^RHC[\s\S]*?(?=LHC.*$)`
 
