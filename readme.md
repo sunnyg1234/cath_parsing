@@ -35,6 +35,7 @@ _To help learn regular expressions_:
 - [R-based Tutorial on Strings](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions)
 - [Regular Expression Tutorial](https://regexone.com/)
 - [Regex Online Tester](https://regex101.com/)
+- [Regex in R using Perl](https://www.regular-expressions.info/rlanguage.html)
 
 For one of the records, for example, we can get the RHC data using this expression...
 
