@@ -3,8 +3,9 @@
 setwd("/Users/sunnygupta/cath_parsing/data")
 analysis_data <- read.csv("sample_RHC.csv")
 
-#These are different sets of code that will extract RHC data from the excel sheet.. Then I extracted the results into a temporary file to check them. All these different codes work well to extract just the RHC data with minimal fluff. I made sure that one code doesn't mess up something in another row. The next step will be proofreading this code for minor errors and then figuring out how to run them all one after the other and then put the results in one clean table. 
+#These are different sets of code that will extract RHC data from the excel sheet.. Then I extracted the results into a temporary file to check them. All these different codes work well to extract just the RHC data with minimal fluff. I made sure that one code doesn't mess up something in another row. The next step will be proofreading this code for minor errors and then figur out how to run them all one after the other and then put the results in one clean table. 
 
+library(tidyverse)
 
 extract1<- str_extract(analysis_data$RHC,"^RHC[\\s\\S]*(?=LHC.*)")
 
@@ -55,5 +56,10 @@ extract12<- str_extract(analysis_data$RHC,"Hemodynamics[\\s\\S]*(?=(?i)RHC.Concl
 
 extract12<-as.data.frame(extract12)
 
+recordID<- select(analysis_data, recordID)
+
+Date<- select(analysis_data,Date)
+
+df<- bind_cols(recordID,Date,extract1,extract2,extract3,extract4,extract5,extract6,extract7,extract8,extract9,extract10,extract11,extract12)
 
 write.csv(extract(), "insertfilenamehere ")
