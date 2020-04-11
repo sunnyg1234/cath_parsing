@@ -56,16 +56,31 @@ extract12<- str_extract(analysis_data$RHC,"Hemodynamics[\\s\\S]*(?=(?i)RHC.Concl
 
 extract12<-as.data.frame(extract12)
 
+
+
+#This is a way I figured out to extract all the RHC data and put it into one table. I couldn't figure out how to do it with loops unfortunately but this actually worked well. I used the "or" function in the loop and it looks like after it finds it once, it doesn't mess with it again.  
+
+setwd("../cath_parsing/data")
+analysis_data <- read.csv("sample_RHC.csv")
+
+library(tidyverse)
+
+regexloop<- c("^RHC[\\s\\S]*(?=LHC.*)|RHC:[\\s\\S]*(?=LHC)|RHC:[\\s\\S]*(?=Plan:)|RHC.showed[\\s\\S]*|Right.heart.cath[\\s\\S]*(?=Left.heart.cath)|(?i)Right.Heart.Cath.Findings[\\s\\S]*(?=(?i)Impression)|RHC[\\s\\S]*(?=(?i)Left.heart.catheterization)|RHC:[\\s\\S]*(?=(?i)\\splan)|RHC:[\\s\\S]*(?=(?i)\\sPlan.*)|RHC/LHC[\\s\\S]*|Hemodynamics[\\s\\S]*(?=(?i)\\sPlan)|Hemodynamics[\\s\\S]*(?=(?i)RHC.Conclusion)|(?i)findings[\\s\\S]*(?=(?i)\\sprocedure)")
+
+
+RHC_extracted_data<- str_extract(analysis_data$RHC,regexloop)
+
+RHC_extracted_data <- as.data.frame(RHC_extracted_data)
+
 recordID<- select(analysis_data, recordID)
 
 Date<- select(analysis_data,Date)
 
-df<- bind_cols(recordID,Date,extract1,extract2,extract3,extract4,extract5,extract6,extract7,extract8,extract9,extract10,extract11,extract12)
+extracted_RHC<- bind_cols(recordID,Date,RHC_extracted_data)
 
-write.csv(extract(), "insertfilenamehere ")
+write.xlsx(extracted_RHC, "extracted_RHC.xlsx")
 
 
 
-regexloop<- c("^RHC[\\s\\S]*(?=LHC.*)","RHC:[\\s\\S]*(?=LHC)","RHC:[\\s\\S]*(?=Plan:)","RHC.showed[\\s\\S]*","Right.heart.cath[\\s\\S]*(?=Left.heart.cath)","(?i)Right.Heart.Cath.Findings[\\s\\S]*(?=(?i)Impression)","RHC[\\s\\S]*(?=(?i)Left.heart.catheterization)","RHC:[\\s\\S]*(?=(?i)\\splan)","RHC:[\\s\\S]*(?=(?i)\\sPlan.*)","RHC/LHC[\\s\\S]*","Hemodynamics[\\s\\S]*(?=(?i)\\sPlan)","Hemodynamics[\\s\\S]*(?=(?i)RHC.Conclusion)")
 
-view(regexloop)
+
