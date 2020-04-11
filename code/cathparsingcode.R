@@ -63,3 +63,9 @@ Date<- select(analysis_data,Date)
 df<- bind_cols(recordID,Date,extract1,extract2,extract3,extract4,extract5,extract6,extract7,extract8,extract9,extract10,extract11,extract12)
 
 write.csv(extract(), "insertfilenamehere ")
+
+
+
+regexloop<- c("^RHC[\\s\\S]*(?=LHC.*)","RHC:[\\s\\S]*(?=LHC)","RHC:[\\s\\S]*(?=Plan:)","RHC.showed[\\s\\S]*","Right.heart.cath[\\s\\S]*(?=Left.heart.cath)","(?i)Right.Heart.Cath.Findings[\\s\\S]*(?=(?i)Impression)","RHC[\\s\\S]*(?=(?i)Left.heart.catheterization)","RHC:[\\s\\S]*(?=(?i)\\splan)","RHC:[\\s\\S]*(?=(?i)\\sPlan.*)","RHC/LHC[\\s\\S]*","Hemodynamics[\\s\\S]*(?=(?i)\\sPlan)","Hemodynamics[\\s\\S]*(?=(?i)RHC.Conclusion)")
+
+view(regexloop)
