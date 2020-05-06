@@ -1,12 +1,11 @@
+library(tidyverse)
 
 #this is just code to get the excel data onto R so that I can extract it using str_extract.
-setwd("/Users/sunnygupta/cath_parsing/data")
-analysis_data <- read.csv("sample_RHC.csv")
+analysis_data <- read_csv("../data/sample_RHC.csv")
 
 
 #These are different sets of code that will extract RHC data from the excel sheet.. Then I extracted the results into a temporary file to check them. All these different codes work well to extract just the RHC data with minimal fluff. I made sure that one code doesn't mess up something in another row. The next step will be proofreading this code for minor errors and then figur out how to run them all one after the other and then put the results in one clean table.
 
-library(tidyverse)
 
 extract1<- str_extract(analysis_data$RHC,"^RHC[\\s\\S]*(?=LHC.*)")
 
@@ -56,11 +55,6 @@ extract11<-as.data.frame(extract11)
 extract12<- str_extract(analysis_data$RHC,"Hemodynamics[\\s\\S]*(?=(?i)RHC.Conclusion)")
 
 extract12<-as.data.frame(extract12)
-
- master
-write.csv(extract(), "insertfilenamehere ")
-
-
 
 # Anish's version of entering hte data {{{ 
 
@@ -115,7 +109,6 @@ rhc$first_round[is.na(rhc$first_round)] <- rhc$second_round[is.na(rhc$first_roun
 
 #This is a way I figured out to extract all the RHC data and put it into one table without a bunch of extra steps. I couldn't figure out how to do it with loops unfortunately but this actually works well. I used the "or" function in the loop and it looks like after it finds it once, it doesn't mess with it again.  
 
-setwd("/Users/sunnygupta/cath_parsing/data")
 
 library(openxlsx)
 
@@ -126,21 +119,20 @@ library(tidyverse)
 regexloop<- c("^RHC[\\s\\S]*(?=LHC.*)|RHC:[\\s\\S]*(?=LHC)|RHC:[\\s\\S]*(?=Plan:)|RHC.showed[\\s\\S]*|Right.heart.cath[\\s\\S]*(?=Left.heart.cath)|(?i)Right.Heart.Cath.Findings[\\s\\S]*(?=(?i)Impression)|RHC[\\s\\S]*(?=(?i)Left.heart.catheterization)|RHC:[\\s\\S]*(?=(?i)\\splan)|RHC:[\\s\\S]*(?=(?i)\\sPlan.*)|RHC/LHC[\\s\\S]*|Hemodynamics[\\s\\S]*(?=(?i)\\sPlan)|Hemodynamics[\\s\\S]*(?=(?i)RHC.Conclusion)|(?i)findings[\\s\\S]*(?=(?i)\\sprocedure)")
 
 #This extracts the data using the expressions and puts it into a new column in the original data
-analysis_data$RHC_extracted<- str_extract(analysis_data$RHC,regexloop)
+analysis_data$RHC_extracted <- str_extract(analysis_data$RHC,regexloop)
 
 
 #THis new column extracts all the RA data in a similar fashion, looping through the regular expressions until it finds one that works 
 
 
-RA_loop<- c("(?<=\\sRA\\s|\\sRA=|\\sRA:)(\\s|\\sRA:)*.*")
+RA_loop <- c("(?<=\\sRA\\s|\\sRA=|\\sRA:)(\\s|\\sRA:)*.*")
 
 RA_loop1<- c("(?<=\\sRA\\s|\\sRA=|\\sRA:)(\\s|\\sRA:)*.*(?=(?i)mmHg)|(?<=\\sRA\\s|\\sRA=|\\sRA:)(\\s|\\sRA:)*.*")
 
 analysis_data$RA<- str_extract(analysis_data$RHC_extracted, RA_loop1)
 
-#to save data as excel file
-install.packages("openxlsx")
-library("openxlsx")
+
+
 
 write.xlsx(analysis_data, "extracted_RHC_data.xlsx")
 
