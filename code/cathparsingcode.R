@@ -7,7 +7,6 @@ library(tidyverse)
 
 
 #this is just code to get the excel data onto R so that I can extract it using str_extract.
-analysis_data <- read_csv("../data/sample_RHC.csv")
 
 library(openxlsx)
 
