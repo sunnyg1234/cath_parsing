@@ -36,7 +36,7 @@ analysis_data$PCWP<- str_extract(analysis_data$RHC_extracted, PCWP_loop)
 
 #RV loop 
 RV_loop<- c(
-  "(?<=\\sRV:|RV=|RV|RV\\s).*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[[:punct:]]*")
+  "(?<=\\sRV:|RV=|RV|RV\\s).\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[[:punct:]]*[0-9]*")
 
 analysis_data$RV<- str_extract(analysis_data$RHC_extracted, RV_loop)
 
