@@ -12,9 +12,9 @@ analysis_data <- read.csv("../Desktop/procedures.csv")
 
 get_RA_data <- function(x) {
 	
-	RA_loop<- c("(?<=\\bRA\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]")
+	RA_loop<- c("(?<=\\bRA\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]*")
 	
-	
+
 	#matches first regex expression
 	stringi::stri_match_first_regex(x, RA_loop) 
 	
@@ -24,7 +24,7 @@ get_RA_data <- function(x) {
 
 get_PA_data<- function(x) {
 	
-	PA_loop<- c("(?<=\\bPA\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]")
+	PA_loop<- c("(?<=\\bPA\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]*")
 	
 	
 	#matches first regex expression
@@ -36,7 +36,7 @@ get_PA_data<- function(x) {
 
 get_PCWP_data<- function(x) {
 	
-	PCWP_loop<- c("(?<=\\bPCWP\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]|(?<=\\bPCW\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]")
+	PCWP_loop<- c("(?<=\\bPCWP\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]|(?<=\\bPCW\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]*")
 	
 	
 	#matches first regex expression
@@ -48,7 +48,7 @@ get_PCWP_data<- function(x) {
 
 get_RV_data<- function(x) {
 	
-	RV_loop<- c("(?<=\\bRV\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]")
+	RV_loop<- c("(?<=\\bRV\\W)\\s*[0-9]*[[:punct:]]*[0-9]*[\\W]*[0-9]*[)]*")
 	
 	#matches first regex expression
 	stringi::stri_match_first_regex(x, RV_loop) 
@@ -57,7 +57,7 @@ get_RV_data<- function(x) {
 
 #All functions. Just need to put vector into x to extract 
 
-get_RA_data(x)
+get_RA_data(analysis_data$RHC)
 
 get_PA_data(x)
 
@@ -68,10 +68,17 @@ get_RV_data(x)
 
 #Extract right heart cath data with functions 
 
-analysis_data$RA<- get_RA_data(analysis_data$Powernote.Text.Result)
+analysis_data$RA<- get_RA_data(analysis_data$RHC)
 
-analysis_data$PA<- get_PA_data(analysis_data$Powernote.Text.Result)
+analysis_data$PA<- get_PA_data(analysis_data$RHC)
 
-analysis_data$PCWP<- get_PCWP_data(analysis_data$Powernote.Text.Result)
+analysis_data$PCWP<- get_PCWP_data(analysis_data$RHC)
 
-analysis_data$RV<- get_RV_data(analysis_data$Powernote.Text.Result)
+analysis_data$RV<- get_RV_data(analysis_data$RHC)
+
+#Function to extract LHC data
+
+x<- analysis_data$RHC
+
+regmatches(x, regexpr("(?<=Left main)\\D*\\K\\d+", x, perl=TRUE))
+
