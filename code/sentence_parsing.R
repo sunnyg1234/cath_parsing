@@ -19,7 +19,7 @@ coronary_anatomy <- function(x) {
 		pull(word)
 		
 	# Identify number/locations of disease
-	artery <- y[which(y %in% epicardial)]
+	artery <- sentence[which(sentence %in% epicardial)]
 	locs <- grep("\\d+", sentence) 
 	mlocs <- which(sentence %in% mods)
 	
